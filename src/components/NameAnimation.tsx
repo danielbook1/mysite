@@ -1,36 +1,25 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import AnimationPlayer from "@/components/AnimationPlayer";
+import { useRef } from "react";
 
-interface Props {
-  url: string;
-  playbackSpeed?: number;
-  onEnded?: () => void;
-  autoPlay?: boolean;
-}
-
-export default function NameAnimation({
-  url,
-  playbackSpeed = 1.0,
-  onEnded,
-  autoPlay = true,
-}: Props) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = playbackSpeed;
-    }
-  }, []);
+export default function NameAnimation() {
+  const secondVideoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <video
-      ref={videoRef}
-      src={url}
-      autoPlay={autoPlay}
-      muted
-      playsInline
-      onEnded={onEnded}
-    />
+    <div className="grid grid-cols-2 gap-4 justify-center max-w-6xl w-full mx-auto">
+      <AnimationPlayer
+        url="/res/daniel.mp4"
+        playbackSpeed={2.25}
+        onEnded={() => secondVideoRef.current?.play()}
+      />
+
+      <AnimationPlayer
+        ref={secondVideoRef}
+        url="/res/book.mp4"
+        playbackSpeed={2.25}
+        autoPlay={false}
+      />
+    </div>
   );
 }
